@@ -16,4 +16,4 @@ for file in glob.glob('data/*.npy'):
     #display a log plot
     pylab.clf()
     pylab.bar(bins,currenthist,align='center',log=True)
-    pylab.savefig('plots/'+ splitext(basename(file))[0] + '_log.pdf',format='pdf)
+    pylab.savefig('plots/'+ splitext(basename(file))[0] + '_log.pdf',format='pdf')
