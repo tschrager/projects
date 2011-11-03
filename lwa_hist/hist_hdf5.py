@@ -1,6 +1,8 @@
 import h5py
 import numpy
 import glob
+import matplotlib
+matplotlib.use('Agg')
 import pylab
 
 f=h5py.File('data/055859_000007075_TBW.hdf5','r')
@@ -8,6 +10,7 @@ myhists = dict([ ((stand,pol),numpy.zeros(4096)) for stand in list(f) for pol in
 numsamples = dict([ ((stand,pol),0) for stand in list(f) for pol in list(f[stand]) ])
 
 for datafile in glob.glob('data/*.hdf5'):
+    #for datafile in glob.glob('data/055860_000021683_TBW.hdf5'):
     h5pyfile=h5py.File(datafile,'r')
     for stand in list(h5pyfile):
         for pol in list(f[stand]):
