@@ -17,7 +17,7 @@ for file in glob.glob('data/*.npy'):
 	pylab.plot(bins,currenthist,marker='.',linestyle='None')
 	rms = numpy.sqrt(1/numpy.sum(currenthist) * numpy.sum(numpy.square(bins)*currenthist) )
 	pylab.savefig(wiki_dir + '/images/' + splitext(basename(file))[0] + '.png',format='png')
-	alttext = splitext(basename(file))[0] + ' rms: ' + `rms` + ' samples: ' + `numpy.sum(currenthist)`
+	alttext = splitext(basename(file))[0] + ' rms: ' + `rms` + ' samples: ' + `numpy.sum(currenthist)` + 'within 8 bits' + 
 
 	wikifile.write('[[images/' + splitext(basename(file))[0] + '.png | frame | alt=' + alttext + ']]\n')
 
