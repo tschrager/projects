@@ -9,13 +9,22 @@
 %\setlength{\parindent}{0in}
 
 \begin{document}
-\title{LEDA Memo}
+\title{LEDA Memo: 8 Bit Sampling of LWA Data}
 \date{}
 \author{Terry Filiba}
 \maketitle
 
+In order to determine the suitability of an 8 bit ADC for sampling LWA data, we analyzed 24 hours of data from 6 LWA dual pol stands. The data was captured using the currently available 12 bit ADCs.
 
+
+Initial analysis of the data showed that at least 97\% of the samples lie within the range $[-128,128)$. Without adjusting any gains there would be $< 3\%$ error using an 8 bit ADC.
+If the ADC gain is set so that the RMS is $20$ the error rate of the ADC gets even lower. With the sampled data rescaled, saturation only occurs in $<0.001\%$ of the samples using an 8 bit ADC (an error rate of $10^{-5}$). 
+
+\begin{table}[h]
 \input{table.tex}
+\end{table}
+
+Histogramming of the data shows that the majority of samples lie within 8 bits. A log plot of the data emphasizes the short tails in the histogram, showing that adjusting the gain will be an effective way to reduce the error rate. 
 
 \input{plots.tex}
 
