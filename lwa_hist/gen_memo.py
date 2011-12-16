@@ -19,7 +19,7 @@ figuretext = '\\begin{figure}[ht] \
 				\\end{figure} \n\n'
 				
 figurecaption = 'Data from %s. RMS is %.4f Samples used : %d. If the RMS is unchanged %.4f percent of the samples will lie within [-128,128). \
- 				 With an RMS of 20 %.4f percent of the samples will lie within [-128,128).'
+ 				 With an RMS of 20, %.4f percent of the samples will lie within [-128,128).'
  				 
 resultsarray = numpy.array(['\\text{Stand}','\\text{RMS}','\\text{samples }\in [-128,128)','\\text{samples }\in [-128,128)\\text{ with RMS}=20'])
 
