@@ -6,22 +6,44 @@
 \usepackage{fullpage}
 %\usepackage{hyperref}
 %\usepackage{listings}
-%\setlength{\parindent}{0in}
+\setlength{\parindent}{0in}
 
 \begin{document}
 \title{LEDA Memo: 8 Bit Sampling of LWA Data}
-\date{}
+%\date{}
 \author{Terry Filiba}
 \maketitle
 
 \section{Summary}
 In order to determine the suitability of an 8 bit ADC for sampling LWA data, we analyzed data taken every 15 minutes over a 24 hour period from 6 LWA dual pol stands. 
-The data was captured using the currently available 12 bit ADCs.
+The data was captured using the currently available 12 bit ADCs. 
+The following plots and statistics were produced using all of the captured data.
+\\
+
+\begin{figure}[h] 
+\includegraphics[width=0.9\textwidth]{filter_response.pdf}
+\caption{ARX filter response. Refer to the memo ``Manufacturing Tests of the Analog Receiver (ARX) Boards" for more information on the filters.} 
+\label{filterresponse}
+\end{figure} 
+
+Figure \ref{filterresponse} shows the  frequency responses of all the available LWA filters.
+The "split bandwidth" filter set that was selected for this experiment has a
+main passband from 40 to 90 MHz, and an attenuated passband
+from 10 to 40 MHz (the staircase passband shown in figure \ref{filterresponse}).  
+The filter was configured as follows: \\
+Filter Config:  Split Bandwidth, ARX setting of ``0" \\
+Split Bandwidth Attenuation:  24 dB (maximum), ARX setting of ``15"  \\
+First Attenuator:  16 dB (out of 30 dB), AT1 = ``08" \\
+Second Attenuator:  12 dB (out of 30 dB), AT2 = ``06" \\
+
+
 
 Analysis of the data showed that at least 97\% of the samples lie within the range $[-128,128)$. 
 Therefore, without adjusting any gains there would be $< 3\%$ error due to saturation using an 8 bit ADC.
 If the ADC gain is set so that the RMS is $20$, the error rate of the ADC gets even lower. 
-With the sampled data rescaled, saturation only occurs in $<0.001\%$ of the samples using an 8 bit ADC (an error rate of $10^{-5}$). 
+With the sampled data rescaled, saturation would only occur in $<0.001\%$ of the samples using an 8 bit ADC (an error rate of $10^{-5}$). 
+
+Based on this analysis, we recommend using an 8 bit ADC to sample LEDA data from the LWA. If the gains are adjusted appropriately, there will be very little loss due to saturation.
 
 \begin{table}[h]
 \input{table.tex}
@@ -33,6 +55,9 @@ Each histogram is shown in linear and log scale, to highlight the peakedness and
 The blue bars highlight the samples that could be represented with 8 bits without gain adjustment. 
 The yellow bars show the samples that would not saturate if the gain was adjusted so that the RMS is $20$.
 The log plots of the data emphasize the short tails in the histogram, showing that adjusting the gain will be an effective way to reduce the saturation rate. 
+
+%\newpage
+
 \input{plots.tex}
 
 \end{document}

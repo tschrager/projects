@@ -12,7 +12,7 @@ bins=numpy.arange(-2048,2048,1)
 
 imagefile = open('plots.tex','w')
 tablefile = open('table.tex','w')
-figuretext = '\\begin{figure}[ht] \
+figuretext = '\\begin{figure}[h] \
 				\\subfloat{\\includegraphics[width=0.5\\textwidth]{%s}} \
 				\\subfloat{\\includegraphics[width=0.5\\textwidth]{%s}} \
 				\\caption{%s} \
@@ -36,6 +36,7 @@ for file in glob.glob('data/*.npy'):
     thisfigurecaption = figurecaption % (splitext(basename(file))[0].strip('hist'), rms, numpy.sum(currenthist),percentunchwithin8bits, percentrms20withing8bits)
 
     imagefile.write(figuretext % (figurename,logfigurename,thisfigurecaption,) )
+    #imagefile.write('\\newpage')
 
     resultsarray = numpy.vstack([resultsarray,(splitext(basename(file))[0].strip('hist'),rms, '%.4f\\%%'%percentunchwithin8bits, '%.4f\\%%'%percentrms20withing8bits )])
 
