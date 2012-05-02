@@ -9,15 +9,11 @@ function leda_feng_init()
     fftsize=13;
 
     % Place ADC blocks
-    adcdata_cell = cell( 1, 4 );
-    adcdata_cell{1}=xSignal;
-    adcdata_cell{2}=xSignal;
-    adcdata_cell{3}=xSignal;
-    adcdata_cell{4}=xSignal;
-    adcvalid=xSignal;
-    adcsync=xSignal;
-    xBlock(struct('source','xps_library/quadc'), struct('adc_brd','0'),{},[adcdata_cell,{adcvalid},{adcsync}]);
+    adcsync=xInport('adcsync');
+    %xBlock(struct('source','xps_library/quadc'), struct('adc_brd','0'),{},[adcdata_cell,{adcvalid},{adcsync}]);
     %xBlock(struct('source','xps_library/quadc'), struct('adc_brd','1'));
+    
+    
     const_fft_shift = xSignal;
     fft_shift_data = xSignal;
     fft_shift = xBlock(struct('source','xps_library/software register','name','fft_shift'), struct('io_dir','From Processor'));
@@ -28,6 +24,12 @@ function leda_feng_init()
         fftinputdata_cell = cell(1,4);
         
         for fftnumber = 1:fftsperfftblock,
+            adcdata_cell = cell( 1, 4 );
+            adcdata_cell{1}=xInport();
+            adcdata_cell{2}=xInport();
+            adcdata_cell{3}=xInport();
+            adcdata_cell{4}=xInport();
+            
             fftsync = xSignal;
             fftinputdata_cell{fftnumber} = xSignal;
             currentPFBMux = xBlock(str2func('pfb_mux'),{});
@@ -35,9 +37,9 @@ function leda_feng_init()
 
         end
         
-        term_fft_sync=xSignal;
-        fftout12 = xSignal;
-        fftout34 = xSignal;
+        term_fft_sync=xOutport();
+        fftout12 = xOutport();
+        fftout34 = xOutport();
         term_of = xSignal;
         
         
@@ -46,22 +48,6 @@ function leda_feng_init()
         currentFFT = xBlock(struct('source','casper_library_ffts/fft_biplex_real_2x'), struct('FFTSize',fftsize));
         currentFFT.bindPort([{fftsync},{fft_shift_data},fftinputdata_cell],{term_fft_sync,fftout12,fftout34,term_of});
         
-        bufferbits=xSignal;
-        %28 bit buffer up to 64
-        xBlock('Constant',struct('arith_type','Unsigned','n_bits',28,'bin_pt',0),{},{bufferbits});
-        
-        ten_gbe_data = xSignal;
-        concatgbe = xBlock('Concat',struct('num_inputs',3));
-        concatgbe.bindPort({bufferbits,fftout12,fftout34},{ten_gbe_data});
-        
-        
-        term_ten_gbe = {xSignal,xSignal,xSignal,xSignal,xSignal,xSignal,xSignal,xSignal,xSignal,xSignal};
-        boolean_const = xSignal;
-        ip_const = xSignal;
-        xBlock('Constant',struct('arith_type','Boolean'),{},{boolean_const});
-        xBlock('Constant',struct('arith_type','Unsigned','n_bits',32,'bin_pt',0),{},{ip_const});
-        ten_gbe = xBlock(struct('source','xps_library/ten_GbE'));
-        ten_gbe.bindPort({boolean_const,ten_gbe_data,boolean_const,ip_const,ip_const,boolean_const,boolean_const,boolean_const},term_ten_gbe);
 
 
     end
